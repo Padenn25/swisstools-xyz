@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- SEO: Title & Description -->
+  <title>Free Image Metadata Remover — Strip EXIF Data Online | SwissTools</title>
+  <meta name="description" content="Remove GPS location, camera info and other EXIF metadata from your photos. Runs entirely in your browser — nothing is uploaded." />
+  <link rel="canonical" href="https://metadataremover.swisstools.xyz" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://metadataremover.swisstools.xyz" />
+  <meta property="og:title" content="Free Image Metadata Remover — Strip EXIF Data Online | SwissTools" />
+  <meta property="og:description" content="Remove GPS location, camera info and other EXIF metadata from your photos. Runs entirely in your browser — nothing is uploaded." />
+  <meta property="og:site_name" content="SwissTools" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Free Image Metadata Remover — Strip EXIF Data Online | SwissTools" />
+  <meta name="twitter:description" content="Remove GPS location, camera info and other EXIF metadata from your photos. Runs entirely in your browser — nothing is uploaded." />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Image Metadata Remover",
+    "url": "https://metadataremover.swisstools.xyz",
+    "description": "Strip EXIF metadata including GPS location from images directly in your browser. Free and private.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+    body { background:linear-gradient(160deg,#ece8fa 0%,#c0aef0 50%,#8870d8 100%); color:#1a0e38; font-family:'DM Sans',sans-serif; font-weight:300; min-height:100vh; }
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:20px 48px; backdrop-filter:blur(12px); background:rgba(136,112,216,0.35); border-bottom:1px solid rgba(255,255,255,0.35); }
+    .logo { font-family:'DM Serif Display',serif; font-size:1.3rem; letter-spacing:-0.02em; color:#1a0e38; text-decoration:none; }
+    .logo span { color:#5838a8; }
+    .back-link { font-size:0.82rem; color:rgba(26,14,56,0.6); text-decoration:none; letter-spacing:0.04em; text-transform:uppercase; transition:color 0.2s; }
+    .back-link:hover { color:#1a0e38; }
+    .container { max-width:680px; margin:0 auto; padding:130px 24px 80px; }
+    .hero { margin-bottom:40px; }
+    .hero-eyebrow { font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase; color:#5838a8; font-weight:500; margin-bottom:16px; }
+    .hero h1 { font-family:'DM Serif Display',serif; font-size:clamp(2.4rem,8vw,3.8rem); line-height:1.05; letter-spacing:-0.03em; margin-bottom:14px; }
+    .hero h1 em { font-style:italic; color:rgba(26,14,56,0.4); }
+    .hero p { font-size:1rem; color:rgba(26,14,56,0.62); line-height:1.65; }
+    .badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.45); border:1px solid rgba(255,255,255,0.65); border-radius:999px; padding:8px 16px; font-size:0.82rem; margin-top:16px; color:rgba(26,14,56,0.68); }
+    .card { background:rgba(255,255,255,0.35); border:1px solid rgba(255,255,255,0.55); border-radius:16px; padding:28px; backdrop-filter:blur(12px); margin-bottom:20px; }
+    .dropzone { border:2px dashed rgba(88,56,168,0.3); border-radius:14px; padding:48px 24px; text-align:center; cursor:pointer; transition:background 0.2s,border-color 0.2s; margin-bottom:24px; }
+    .dropzone:hover,.dropzone.drag-over { background:rgba(255,255,255,0.25); border-color:#5838a8; }
+    .icon { font-size:2.8rem; display:block; margin-bottom:12px; }
+    .dropzone h2 { font-family:'DM Serif Display',serif; font-size:1.4rem; font-weight:400; margin-bottom:6px; }
+    .dropzone p { font-size:0.85rem; color:rgba(26,14,56,0.55); }
+    .dropzone .sub { font-size:0.78rem; color:rgba(26,14,56,0.45); margin-top:6px; }
+    #fileInput { display:none; }
+    .format-row { display:flex; align-items:center; justify-content:center; gap:12px; margin-top:16px; }
+    .pill { background:rgba(88,56,168,0.12); border:1px solid rgba(88,56,168,0.22); border-radius:8px; padding:4px 12px; font-size:0.75rem; letter-spacing:0.06em; color:#5838a8; font-weight:500; }
+    .arrow { color:rgba(26,14,56,0.4); font-size:1rem; }
+    #previewWrap { display:none; margin-bottom:20px; }
+    #previewWrap.visible { display:block; }
+    #previewImg { width:100%; border-radius:10px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.4); }
+    .file-info { font-size:0.82rem; color:rgba(26,14,56,0.6); }
+    #metaSection { display:none; margin-bottom:20px; }
+    #metaSection.visible { display:block; }
+    .meta-title { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:#5838a8; font-weight:500; margin-bottom:10px; }
+    .meta-table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+    .meta-table td { padding:8px 12px; border-bottom:1px solid rgba(88,56,168,0.12); color:rgba(26,14,56,0.65); }
+    .meta-table td:first-child { color:#1a0e38; font-weight:400; width:45%; }
+    .meta-none { color:rgba(26,14,56,0.48); font-style:italic; padding:12px 0 4px; }
+    .btn { width:100%; background:#5838a8; color:#fff; border:none; border-radius:100px; padding:14px; font-size:0.95rem; font-family:inherit; font-weight:400; cursor:pointer; transition:opacity 0.2s,transform 0.15s; }
+    .btn:hover:not(:disabled) { opacity:0.88; transform:translateY(-1px); }
+    .btn:disabled { opacity:0.35; cursor:not-allowed; }
+    .note { font-size:0.8rem; color:rgba(26,14,56,0.52); text-align:center; margin-bottom:20px; }
+    .disclaimer { background:rgba(255,255,255,0.28); border:1px solid rgba(255,255,255,0.45); border-radius:16px; padding:20px 24px; margin-bottom:20px; }
+    .disclaimer h3 { font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:rgba(26,14,56,0.45); margin-bottom:10px; font-weight:500; }
+    .disclaimer p { font-size:0.78rem; color:rgba(26,14,56,0.45); line-height:1.65; }
+    .also-like { background:rgba(255,255,255,0.28); border:1px solid rgba(255,255,255,0.45); border-radius:16px; padding:24px 28px; }
+    .also-like h3 { font-size:0.78rem; text-transform:uppercase; letter-spacing:0.1em; color:rgba(26,14,56,0.48); font-weight:500; margin-bottom:16px; }
+    .also-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .also-item { text-decoration:none; color:#1a0e38; font-size:0.87rem; padding:12px 16px; border:1px solid rgba(255,255,255,0.5); border-radius:10px; background:rgba(255,255,255,0.3); transition:background 0.2s,border-color 0.2s; display:flex; align-items:center; gap:10px; }
+    .also-item:hover { background:rgba(255,255,255,0.55); border-color:#5838a8; }
+    .share-section { margin-top:32px; }
+    .share-label { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.12em; font-weight:500; margin-bottom:14px; color:rgba(26,14,56,0.52); }
+    .share-buttons { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; }
+    .share-btn { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; border-radius:100px; font-size:0.82rem; font-family:inherit; font-weight:400; text-decoration:none; transition:transform 0.15s,opacity 0.15s; cursor:pointer; }
+    .share-btn svg { width:15px; height:15px; flex-shrink:0; }
+    .share-btn:hover { transform:translateY(-2px); opacity:0.88; }
+    .kofi-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:13px; border-radius:100px; font-size:0.88rem; font-family:inherit; font-weight:500; text-decoration:none; transition:transform 0.15s,opacity 0.15s; }
+    .kofi-btn:hover { transform:translateY(-2px); opacity:0.9; }
+    .share-wa { background:rgba(37,211,102,0.9); color:#fff; }
+    .share-x  { background:rgba(26,14,56,0.12); color:#1a0e38; border:1px solid rgba(26,14,56,0.18); }
+    .share-fb { background:rgba(24,119,242,0.85); color:#fff; }
+    .share-li { background:rgba(0,119,181,0.85); color:#fff; }
+    .share-em { background:rgba(26,14,56,0.12); color:#1a0e38; border:1px solid rgba(26,14,56,0.18); }
+    .kofi-btn { background:#5838a8; color:#fff; }
+    @media (max-width:600px) { nav { padding:18px 20px; } .container { padding-left:16px; padding-right:16px; } .also-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="https://swisstools.xyz" class="logo">swiss<span>tools</span></a>
+    <a href="https://swisstools.xyz" class="back-link">← All tools</a>
+  </nav>
+  <div class="container">
+    <div class="hero">
+      <p class="hero-eyebrow">Metadata Remover</p>
+      <h1>Remove image<br><em>metadata.</em></h1>
+      <p>Strip EXIF data, GPS location, camera info and more — privately, in your browser.</p>
+      <div class="badge">📍 GPS &amp; personal data removed instantly</div>
+    </div>
+    <div class="card">
+      <div class="dropzone" id="dropzone">
+        <span class="icon">🔍</span>
+        <h2>Drop an image here</h2>
+        <p>or click to select a file</p>
+        <p class="sub">JPG, PNG, WEBP — EXIF data will be stripped</p>
+        <div class="format-row">
+          <span class="pill">JPG / PNG / WEBP</span>
+          <span class="arrow">→</span>
+          <span class="pill">Clean file</span>
+        </div>
+      </div>
+      <input type="file" id="fileInput" accept="image/*" />
+      <div id="previewWrap">
+        <img id="previewImg" src="" alt="Preview" />
+        <p class="file-info" id="fileInfo"></p>
+      </div>
+      <div id="metaSection">
+        <p class="meta-title">Detected metadata (will be removed)</p>
+        <table class="meta-table" id="metaTable"></table>
+      </div>
+      <button class="btn" id="removeBtn" disabled>Remove metadata &amp; download →</button>
+    </div>
+    <p class="note">Everything runs locally in your browser. No file is ever uploaded.</p>
+    <div class="disclaimer"><h3>Legal Disclaimer</h3><p>This tool is provided "as is" without any warranty of any kind, express or implied. Results may vary depending on file format, size, and browser capabilities. No data is collected, stored, or transmitted — all processing happens locally in your browser. By using this tool, you agree that the provider assumes no liability for any loss, damage, or inaccuracies resulting from its use.</p></div>
+    <div class="also-like"><h3>Other tools</h3><div class="also-grid">
+      <a href="https://heicconverter.swisstools.xyz" class="also-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg> HEIC Converter</a>
+      <a href="https://pdfconverter.swisstools.xyz" class="also-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg> PDF Converter</a>
+      <a href="https://imagecompressor.swisstools.xyz" class="also-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Image Compressor</a>
+      <a href="https://mp3compressor.swisstools.xyz" class="also-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> MP3 Compressor</a>
+      <a href="https://pdfmerger.swisstools.xyz" class="also-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg> PDF Merger</a>
+    </div></div>
+    <div class="share-section">
+      <p class="share-label">Share this tool</p>
+      <div class="share-buttons">
+        <a class="share-btn share-wa" id="sh-wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.525 5.847L.057 23.535a.5.5 0 0 0 .608.608l5.688-1.468A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.699-.513-5.238-1.407l-.374-.22-3.884 1.002 1.002-3.884-.22-.374A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> WhatsApp</a>
+        <a class="share-btn share-x" id="sh-x" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.834L1.254 2.25H8.08l4.255 5.626L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg> X</a>
+        <a class="share-btn share-fb" id="sh-fb" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg> Facebook</a>
+        <a class="share-btn share-li" id="sh-li" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+        <a class="share-btn share-em" id="sh-em" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email</a>
+      </div>
+      <a class="kofi-btn" href="https://ko-fi.com/pee648160" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.038.567l.11.162.127-.135c1.064-1.605 3.07-1.351 3.96-.96 1.083.498 1.368 1.266 1.368 1.266.705 1.149.037 2.692-.049 3.065z"/></svg> Support this project — Buy me a coffee ☕</a>
+    </div>
+  </div>
+  <script>
+    const dropzone=document.getElementById('dropzone'),fileInput=document.getElementById('fileInput'),previewWrap=document.getElementById('previewWrap'),previewImg=document.getElementById('previewImg'),fileInfo=document.getElementById('fileInfo'),metaSection=document.getElementById('metaSection'),metaTable=document.getElementById('metaTable'),removeBtn=document.getElementById('removeBtn');
+    let currentFile=null;
+    dropzone.addEventListener('click',()=>fileInput.click());
+    dropzone.addEventListener('dragover',e=>{e.preventDefault();dropzone.classList.add('drag-over');});
+    dropzone.addEventListener('dragleave',()=>dropzone.classList.remove('drag-over'));
+    dropzone.addEventListener('drop',e=>{e.preventDefault();dropzone.classList.remove('drag-over');if(e.dataTransfer.files[0])loadFile(e.dataTransfer.files[0]);});
+    fileInput.addEventListener('change',()=>{if(fileInput.files[0])loadFile(fileInput.files[0]);});
+    function fmt(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(2)+' MB';}
+    function loadFile(file){if(!file.type.startsWith('image/'))return alert('Please select an image file.');currentFile=file;const r=new FileReader();r.onload=e=>{previewImg.src=e.target.result;previewWrap.classList.add('visible');fileInfo.textContent=file.name+' · '+fmt(file.size);removeBtn.disabled=false;readExif(e.target.result);};r.readAsDataURL(file);}
+    const EXIF_TAGS={0x010F:'Camera Make',0x0110:'Camera Model',0x0112:'Orientation',0x011A:'X Resolution',0x011B:'Y Resolution',0x0131:'Software',0x0132:'Date/Time',0x013B:'Artist',0x8298:'Copyright',0x8825:'GPS IFD',0x9000:'Exif Version',0x9003:'Date/Time Original',0x9201:'Shutter Speed',0x9202:'Aperture',0x9207:'Metering Mode',0x9209:'Flash',0x920A:'Focal Length',0xA001:'Color Space',0xA002:'Image Width',0xA003:'Image Height',0xA402:'Exposure Mode',0xA403:'White Balance',0xA405:'Focal Length (35mm)',0x0001:'GPS Lat Ref',0x0002:'GPS Latitude',0x0003:'GPS Lon Ref',0x0004:'GPS Longitude',0x0006:'GPS Altitude'};
+    function readExif(dataUrl){const found={};try{const bin=atob(dataUrl.split(',')[1]),bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);const view=new DataView(bytes.buffer);if(view.getUint16(0)!==0xFFD8)throw new Error('Not JPEG');let offset=2;while(offset<view.byteLength-2){const marker=view.getUint16(offset);offset+=2;if(marker===0xFFE1){const exifHeader=String.fromCharCode(...bytes.slice(offset+2,offset+6));if(exifHeader==='Exif'){const tiffOffset=offset+8,littleEndian=view.getUint16(tiffOffset)===0x4949,ifdOffset=view.getUint32(tiffOffset+4,littleEndian),numEntries=view.getUint16(tiffOffset+ifdOffset,littleEndian);for(let i=0;i<numEntries;i++){const entryOffset=tiffOffset+ifdOffset+2+i*12,tag=view.getUint16(entryOffset,littleEndian),type=view.getUint16(entryOffset+2,littleEndian),count=view.getUint32(entryOffset+4,littleEndian);if(EXIF_TAGS[tag]){let val='—';try{if(type===2){const vo=count<=4?entryOffset+8:tiffOffset+view.getUint32(entryOffset+8,littleEndian);val='';for(let j=0;j<count-1;j++)val+=String.fromCharCode(view.getUint8(vo+j));}else if(type===3&&count===1){val=view.getUint16(entryOffset+8,littleEndian).toString();}else if(type===4&&count===1){val=view.getUint32(entryOffset+8,littleEndian).toString();}}catch(e){val='(present)';}if(val&&val.trim())found[EXIF_TAGS[tag]]=val||'(present)';}}}break;}if((marker&0xFF00)!==0xFF00)break;offset+=view.getUint16(offset);}}catch(e){}
+      metaSection.classList.add('visible');metaTable.innerHTML='';const keys=Object.keys(found);if(keys.length===0){metaTable.innerHTML='<tr><td class="meta-none" colspan="2">No readable EXIF metadata found — file may already be clean.</td></tr>';}else{keys.forEach(k=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${k}</td><td>${found[k]}</td>`;metaTable.appendChild(tr);});}}
+    removeBtn.addEventListener('click',()=>{if(!currentFile)return;const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=img.width;c.height=img.height;c.getContext('2d').drawImage(img,0,0);c.toBlob(b=>{const url=URL.createObjectURL(b),a=document.createElement('a');a.href=url;a.download=currentFile.name.replace(/\.[^.]+$/,'')+'-clean.jpg';a.click();URL.revokeObjectURL(url);},'image/jpeg',0.95);};img.src=previewImg.src;});
+    (function(){const url=encodeURIComponent(window.location.href),title=encodeURIComponent(document.title);document.getElementById('sh-wa').href='https://wa.me/?text='+title+'%20'+url;document.getElementById('sh-x').href='https://twitter.com/intent/tweet?url='+url+'&text='+title;document.getElementById('sh-fb').href='https://www.facebook.com/sharer/sharer.php?u='+url;document.getElementById('sh-li').href='https://www.linkedin.com/sharing/share-offsite/?url='+url;document.getElementById('sh-em').href='mailto:?subject='+title+'&body='+url;})();
+  </script>
+</body>
+</html>
