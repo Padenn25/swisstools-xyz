@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free IBAN Checker Online — Bank Name & BIC | SwissTools</title>
+  <meta name="description" content="Validate and analyse any IBAN directly in your browser. Bank name, BIC/SWIFT code, country structure — no data is uploaded." />
+  <link rel="canonical" href="https://ibanchecker.swisstools.xyz" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ibanchecker.swisstools.xyz" />
+  <meta property="og:title" content="Free IBAN Checker Online — Bank Name & BIC | SwissTools" />
+  <meta property="og:description" content="Validate and analyse any IBAN directly in your browser. Bank name, BIC/SWIFT code, country structure." />
+  <meta property="og:site_name" content="SwissTools" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Free IBAN Checker Online — Bank Name & BIC | SwissTools" />
+  <meta name="twitter:description" content="Validate and analyse any IBAN directly in your browser. Bank name, BIC/SWIFT code, country structure." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "IBAN Checker",
+    "url": "https://ibanchecker.swisstools.xyz",
+    "description": "Validate and analyse any IBAN in your browser. Bank name, BIC, country structure — no data leaves your device.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background-image: url('bg.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      background-attachment: fixed;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    .overlay {
+      position: fixed; inset: 0;
+      backdrop-filter: blur(6px) saturate(0.6) brightness(0.52);
+      -webkit-backdrop-filter: blur(6px) saturate(0.6) brightness(0.52);
+    }
+
+    nav {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 48px 0;
+    }
+    .logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.4rem; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; text-decoration: none; }
+    .logo span { color: rgba(255,255,255,0.38); }
+    .back-link { font-size: 0.78rem; color: rgba(255,255,255,0.45); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .back-link:hover { color: #fff; }
+
+    .content {
+      position: relative; z-index: 1;
+      max-width: 700px; margin: 0 auto;
+      padding: 48px 24px 100px;
+    }
+
+    /* Header */
+    .tag { font-weight:500; font-size:12px; letter-spacing:0.28em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:12px; }
+    h1 { font-weight:900; font-size:clamp(52px,10vw,88px); line-height:0.9; text-transform:uppercase; letter-spacing:-0.01em; color:#fff; margin-bottom:16px; }
+    .subtitle { font-family:'Barlow',sans-serif; font-weight:300; font-size:14px; color:rgba(255,255,255,0.45); line-height:1.65; max-width:460px; margin-bottom:44px; }
+
+    /* Input */
+    .input-row { display:flex; border:1px solid rgba(255,255,255,0.25); background:rgba(0,0,0,0.35); backdrop-filter:blur(10px); overflow:hidden; margin-bottom:10px; }
+    #ibanInput { flex:1; background:transparent; border:none; outline:none; color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:500; font-size:22px; letter-spacing:0.08em; padding:20px 24px; text-transform:uppercase; }
+    #ibanInput::placeholder { color:rgba(255,255,255,0.3); font-size:18px; text-transform:none; font-weight:300; letter-spacing:0; }
+    #checkBtn { background:rgba(255,255,255,0.12); border:none; border-left:1px solid rgba(255,255,255,0.15); color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:15px; letter-spacing:0.18em; text-transform:uppercase; padding:0 28px; cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+    #checkBtn:hover { background:#fff; color:#000; }
+
+    /* Examples */
+    .examples { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:40px; }
+    .ex { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.55); background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14); padding:5px 12px; cursor:pointer; transition:all 0.15s; }
+    .ex:hover { background:rgba(255,255,255,0.18); color:#fff; }
+
+    /* Panels */
+    .panel { padding:20px 24px; background:rgba(0,0,0,0.42); border:1px solid rgba(255,255,255,0.12); backdrop-filter:blur(4px); margin-bottom:2px; }
+    .panel-label { font-weight:400; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:10px; }
+    .panel-value { font-weight:700; font-size:22px; color:#fff; line-height:1.15; }
+    .panel-muted { font-family:'Barlow',sans-serif; font-weight:300; font-size:13px; color:rgba(255,255,255,0.42); margin-top:4px; }
+
+    /* Status */
+    .status { display:flex; align-items:center; gap:16px; padding:18px 24px; border:1px solid rgba(255,255,255,0.18); background:rgba(0,0,0,0.42); margin-bottom:2px; }
+    .status.invalid { background:rgba(160,20,20,0.25); border-color:rgba(255,80,80,0.4); }
+    .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; background:#fff; box-shadow:0 0 12px rgba(255,255,255,0.5); }
+    .status.invalid .dot { background:#ff4d4d; box-shadow:0 0 12px rgba(255,77,77,0.6); }
+    .status-text { font-weight:800; font-size:22px; letter-spacing:0.1em; color:#fff; text-transform:uppercase; }
+    .status-right { font-family:'Barlow',sans-serif; font-size:13px; color:rgba(255,255,255,0.38); margin-left:auto; }
+
+    /* IBAN display */
+    .iban-display { font-weight:700; font-size:clamp(16px,4vw,26px); letter-spacing:0.12em; color:#fff; word-break:break-all; margin-bottom:10px; }
+    .iban-cc { color:rgba(255,255,255,0.45); }
+    .iban-check { color:rgba(255,255,255,0.65); }
+    .iban-legend { display:flex; gap:20px; flex-wrap:wrap; }
+    .iban-legend span { font-family:'Barlow',sans-serif; font-size:11px; color:rgba(255,255,255,0.3); }
+
+    /* Grid */
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-bottom:2px; }
+    @media(max-width:480px){ .grid2 { grid-template-columns:1fr; } }
+
+    /* Bank panel */
+    .bank-panel { padding:20px 24px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.22); margin-bottom:2px; }
+    .bic-value { font-weight:700; font-size:18px; color:rgba(255,255,255,0.8); letter-spacing:0.12em; margin-top:10px; }
+    .bic-value span { color:#fff; }
+
+    /* BBAN blocks */
+    .bban-row { display:flex; gap:4px; flex-wrap:wrap; }
+    .bban-block { display:flex; flex-direction:column; }
+    .bban-digits { font-weight:700; font-size:17px; color:#fff; letter-spacing:0.08em; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14); padding:8px 14px; }
+    .bban-name { font-weight:500; font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.28); margin-top:5px; }
+
+    /* Detail rows */
+    .detail-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.1); }
+    .detail-row:last-child { border-bottom:none; }
+    .detail-key { font-weight:500; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.38); }
+    .detail-val { font-weight:700; font-size:15px; color:#fff; letter-spacing:0.05em; }
+
+    /* Spinner */
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .spinner { width:16px; height:16px; border:2px solid rgba(255,255,255,0.2); border-top-color:#fff; border-radius:50%; animation:spin 0.7s linear infinite; flex-shrink:0; }
+    .loading-row { display:flex; align-items:center; gap:12px; padding:18px 24px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); margin-bottom:2px; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.4); }
+
+    /* Animate */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+    .fade-up { animation:fadeUp 0.35s ease both; }
+
+    /* Disclaimer */
+    .disclaimer { padding:20px 24px; background:rgba(0,0,0,0.28); border:1px solid rgba(255,255,255,0.1); margin-bottom:2px; }
+    .disclaimer h3 { font-weight:600; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:10px; }
+    .disclaimer p { font-family:'Barlow',sans-serif; font-weight:300; font-size:13px; color:rgba(255,255,255,0.38); line-height:1.65; }
+
+    /* Also like */
+    .also-like { padding:24px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); margin-bottom:2px; }
+    .also-like h3 { font-weight:600; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:16px; }
+    .also-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+    .also-item { text-decoration:none; color:#fff; font-size:14px; letter-spacing:0.06em; padding:10px 14px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05); transition:background 0.2s,border-color 0.2s; display:flex; align-items:center; gap:10px; }
+    .also-item:hover { background:rgba(255,255,255,0.12); border-color:rgba(255,255,255,0.35); }
+    @media(max-width:480px){ .also-grid { grid-template-columns:1fr; } }
+
+    /* Share */
+    .share-section { margin-top:24px; }
+    .share-label { font-size:11px; text-transform:uppercase; letter-spacing:0.22em; font-weight:500; color:rgba(255,255,255,0.35); margin-bottom:12px; }
+    .share-buttons { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+    .share-btn { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; transition:transform 0.15s,opacity 0.15s; cursor:pointer; }
+    .share-btn svg { width:15px; height:15px; flex-shrink:0; }
+    .share-btn:hover { transform:translateY(-2px); opacity:0.85; }
+    .share-wa { background:rgba(37,211,102,0.12); color:rgba(120,255,170,0.9); border:1px solid rgba(37,211,102,0.28); }
+    .share-x  { background:rgba(255,255,255,0.07); color:#fff; border:1px solid rgba(255,255,255,0.15); }
+    .share-li { background:rgba(0,119,181,0.18); color:rgba(140,210,255,0.9); border:1px solid rgba(0,119,181,0.3); }
+    .share-em { background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.65); border:1px solid rgba(255,255,255,0.15); }
+    .kofi-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.15em; text-transform:uppercase; text-decoration:none; transition:background 0.2s; }
+    .kofi-btn:hover { background:rgba(255,255,255,0.2); }
+
+    @media(max-width:600px){ nav { padding: 18px 20px 0; } .content { padding-left:16px; padding-right:16px; } }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <nav>
+    <a href="https://swisstools.xyz" class="logo">swiss<span>tools</span></a>
+    <a href="https://swisstools.xyz" class="back-link">← All tools</a>
+  </nav>
+
+  <div class="content">
+    <div class="tag">IBAN Checker</div>
+    <h1>YOUR<br>IBAN.</h1>
+    <p class="subtitle">MOD-97 validation · Bank name & BIC lookup · Country structure. Everything runs locally in your browser — no upload required.</p>
+
+    <div class="input-row">
+      <input id="ibanInput" type="text" placeholder="Enter your IBAN …" spellcheck="false" autocomplete="off">
+      <button id="checkBtn" onclick="analyze()">CHECK</button>
+    </div>
+
+    <div class="examples">
+      <button class="ex" onclick="loadEx('DE89370400440532013000')">🇩🇪 DE</button>
+      <button class="ex" onclick="loadEx('AT611904300234573201')">🇦🇹 AT</button>
+      <button class="ex" onclick="loadEx('CH9300762011623852957')">🇨🇭 CH</button>
+      <button class="ex" onclick="loadEx('GB29NWBK60161331926819')">🇬🇧 GB</button>
+      <button class="ex" onclick="loadEx('FR7630006000011234567890189')">🇫🇷 FR</button>
+      <button class="ex" onclick="loadEx('NL91ABNA0417164300')">🇳🇱 NL</button>
+      <button class="ex" onclick="loadEx('IT60X0542811101000000123456')">🇮🇹 IT</button>
+      <button class="ex" onclick="loadEx('EE471000001020145685')">🇪🇪 EE</button>
+    </div>
+
+    <div id="results"></div>
+
+    <div style="margin-top:20px;">
+      <div class="disclaimer">
+        <h3>How it works</h3>
+        <p>The IBAN structure and MOD-97 checksum are calculated directly in your browser — no upload required. The optional bank lookup (name, BIC) uses an encrypted proxy without any data storage.</p>
+      </div>
+      <div class="disclaimer">
+        <h3>Legal Disclaimer</h3>
+        <p>This tool is provided for informational purposes only, without any warranty of any kind, express or implied. Results may vary depending on the IBAN provided. No data is collected, stored, or transmitted — all validation happens locally in your browser. By using this tool, you agree that the provider assumes no liability for any loss, damage, or inaccuracies resulting from its use.</p>
+      </div>
+
+      <div class="also-like">
+        <h3>Other tools</h3>
+        <div class="also-grid">
+          <a href="https://heicconverter.swisstools.xyz" class="also-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>HEIC Converter</a>
+          <a href="https://pdfconverter.swisstools.xyz" class="also-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>PDF Converter</a>
+          <a href="https://imagecompressor.swisstools.xyz" class="also-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Image Compressor</a>
+          <a href="https://metadataremover.swisstools.xyz" class="also-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Metadata Remover</a>
+          <a href="https://mp3compressor.swisstools.xyz" class="also-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>MP3 Compressor</a>
+          <a href="https://pdfmerger.swisstools.xyz" class="also-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>PDF Merger</a>
+          <a href="https://pdfcompressor.swisstools.xyz" class="also-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/></svg>PDF Compressor</a>
+        </div>
+      </div>
+
+      <div class="share-section">
+        <p class="share-label">Share this tool</p>
+        <div class="share-buttons">
+          <a class="share-btn share-wa" id="sh-wa" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.525 5.847L.057 23.535a.5.5 0 0 0 .608.608l5.688-1.468A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.699-.513-5.238-1.407l-.374-.22-3.884 1.002 1.002-3.884-.22-.374A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </a>
+          <a class="share-btn share-x" id="sh-x" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.834L1.254 2.25H8.08l4.255 5.626L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+            X
+          </a>
+          <a class="share-btn share-li" id="sh-li" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+          <a class="share-btn share-em" id="sh-em" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email
+          </a>
+        </div>
+        <a class="kofi-btn" href="https://ko-fi.com/pee648160" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.038.567l.11.162.127-.135c1.064-1.605 3.07-1.351 3.96-.96 1.083.498 1.368 1.266 1.368 1.266.705 1.149.037 2.692-.049 3.065z"/></svg>
+          Support this project — Buy me a coffee ☕
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  const PROXY = 'https://dccnzsniksrddeurhvqn.supabase.co/functions/v1/iban-proxy';
+
+  const REGISTRY = {
+    AD:{name:"Andorra",flag:"🇦🇩",len:24,cur:"EUR",sepa:true,bban:{bank:[4,8],branch:[8,12],account:[12,24]}},
+    AT:{name:"Austria",flag:"🇦🇹",len:20,cur:"EUR",sepa:true,bban:{bank:[4,9],account:[9,20]}},
+    BE:{name:"Belgium",flag:"🇧🇪",len:16,cur:"EUR",sepa:true,bban:{bank:[4,7],account:[7,14],check:[14,16]}},
+    CH:{name:"Switzerland",flag:"🇨🇭",len:21,cur:"CHF",sepa:true,bban:{bank:[4,9],account:[9,21]}},
+    CY:{name:"Cyprus",flag:"🇨🇾",len:28,cur:"EUR",sepa:true},
+    DE:{name:"Germany",flag:"🇩🇪",len:22,cur:"EUR",sepa:true,bban:{bank:[4,12],account:[12,22]}},
+    DK:{name:"Denmark",flag:"🇩🇰",len:18,cur:"DKK",sepa:true,bban:{bank:[4,8],account:[8,17],check:[17,18]}},
+    EE:{name:"Estonia",flag:"🇪🇪",len:20,cur:"EUR",sepa:true,bban:{bank:[4,6],account:[6,19],check:[19,20]}},
+    ES:{name:"Spain",flag:"🇪🇸",len:24,cur:"EUR",sepa:true,bban:{bank:[4,8],branch:[8,12],account:[14,24]}},
+    FI:{name:"Finland",flag:"🇫🇮",len:18,cur:"EUR",sepa:true,bban:{bank:[4,10],account:[10,17],check:[17,18]}},
+    FR:{name:"France",flag:"🇫🇷",len:27,cur:"EUR",sepa:true,bban:{bank:[4,9],branch:[9,14],account:[14,25]}},
+    GB:{name:"United Kingdom",flag:"🇬🇧",len:22,cur:"GBP",sepa:true,bban:{bank:[4,8],branch:[8,14],account:[14,22]}},
+    GR:{name:"Greece",flag:"🇬🇷",len:27,cur:"EUR",sepa:true},
+    HR:{name:"Croatia",flag:"🇭🇷",len:21,cur:"EUR",sepa:true,bban:{bank:[4,11],account:[11,21]}},
+    HU:{name:"Hungary",flag:"🇭🇺",len:28,cur:"HUF",sepa:true},
+    IE:{name:"Ireland",flag:"🇮🇪",len:22,cur:"EUR",sepa:true,bban:{bank:[4,8],branch:[8,14],account:[14,22]}},
+    IT:{name:"Italy",flag:"🇮🇹",len:27,cur:"EUR",sepa:true,bban:{bank:[5,10],branch:[10,15],account:[15,27]}},
+    LI:{name:"Liechtenstein",flag:"🇱🇮",len:21,cur:"CHF",sepa:true,bban:{bank:[4,9],account:[9,21]}},
+    LT:{name:"Lithuania",flag:"🇱🇹",len:20,cur:"EUR",sepa:true,bban:{bank:[4,9],account:[9,20]}},
+    LU:{name:"Luxembourg",flag:"🇱🇺",len:20,cur:"EUR",sepa:true,bban:{bank:[4,7],account:[7,20]}},
+    LV:{name:"Latvia",flag:"🇱🇻",len:21,cur:"EUR",sepa:true,bban:{bank:[4,8],account:[8,21]}},
+    MT:{name:"Malta",flag:"🇲🇹",len:31,cur:"EUR",sepa:true},
+    NL:{name:"Netherlands",flag:"🇳🇱",len:18,cur:"EUR",sepa:true,bban:{bank:[4,8],account:[8,18]}},
+    NO:{name:"Norway",flag:"🇳🇴",len:15,cur:"NOK",sepa:true,bban:{bank:[4,8],account:[8,14],check:[14,15]}},
+    PL:{name:"Poland",flag:"🇵🇱",len:28,cur:"PLN",sepa:true,bban:{bank:[4,12],account:[12,28]}},
+    PT:{name:"Portugal",flag:"🇵🇹",len:25,cur:"EUR",sepa:true},
+    RO:{name:"Romania",flag:"🇷🇴",len:24,cur:"RON",sepa:true,bban:{bank:[4,8],account:[8,24]}},
+    SE:{name:"Sweden",flag:"🇸🇪",len:24,cur:"SEK",sepa:true},
+    SI:{name:"Slovenia",flag:"🇸🇮",len:19,cur:"EUR",sepa:true,bban:{bank:[4,9],account:[9,17],check:[17,19]}},
+    SK:{name:"Slovakia",flag:"🇸🇰",len:24,cur:"EUR",sepa:true,bban:{bank:[4,8],account:[8,18]}},
+    TR:{name:"Turkey",flag:"🇹🇷",len:26,cur:"TRY",sepa:false,bban:{bank:[4,9],account:[10,26]}},
+    UA:{name:"Ukraine",flag:"🇺🇦",len:29,cur:"UAH",sepa:false,bban:{bank:[4,10],account:[10,29]}},
+  };
+  const BBAN_LABELS = { bank:'Bank code', branch:'Branch', account:'Account No.', check:'Check digit' };
+
+  function toNumeric(iban) {
+    return (iban.slice(4)+iban.slice(0,4)).split('').map(c=>{
+      const n=c.charCodeAt(0); return n>=65?(n-55).toString():c;
+    }).join('');
+  }
+  function mod97(s){ let r=0; for(const c of s) r=(r*10+parseInt(c))%97; return r; }
+
+  function validate(raw) {
+    const iban=raw.replace(/\s/g,'').toUpperCase();
+    if(iban.length<4) return {valid:false,error:'Too short'};
+    const cc=iban.slice(0,2);
+    if(!/^[A-Z]{2}$/.test(cc)) return {valid:false,error:'Invalid country code'};
+    const c=REGISTRY[cc];
+    if(!c) return {valid:false,error:`Country code ${cc} not supported`};
+    if(iban.length!==c.len) return {valid:false,error:`Wrong length: ${iban.length} instead of ${c.len}`};
+    if(!/^\d{2}$/.test(iban.slice(2,4))) return {valid:false,error:'Invalid check digits'};
+    const rem=mod97(toNumeric(iban));
+    return {valid:rem===1, error:rem!==1?`MOD-97 failed (remainder: ${rem})`:null};
+  }
+
+  function parseBBAN(cc, bban) {
+    const spec=REGISTRY[cc]?.bban||{};
+    const parts={};
+    for(const [k,range] of Object.entries(spec)) {
+      parts[k]=bban.slice(range[0]-4, range[1]-4);
+    }
+    return parts;
+  }
+
+  function loadEx(val) {
+    document.getElementById('ibanInput').value=val;
+    analyze();
+  }
+
+  async function analyze() {
+    const raw=document.getElementById('ibanInput').value.replace(/\s/g,'').toUpperCase();
+    if(raw.length<2) return;
+    document.getElementById('ibanInput').value=raw;
+
+    const v=validate(raw);
+    const cc=raw.slice(0,2);
+    const country=REGISTRY[cc];
+    const bban=raw.slice(4);
+    const checkDigits=raw.slice(2,4);
+    const parts=country?parseBBAN(cc,bban):{};
+    const groups=raw.match(/.{1,4}/g)||[];
+    const el=document.getElementById('results');
+
+    el.innerHTML=`<div class="fade-up">
+      <div class="status ${v.valid?'':'invalid'}">
+        <div class="dot"></div>
+        <span class="status-text">${v.valid?'VALID IBAN':'INVALID IBAN'}</span>
+        <span class="status-right">${v.valid?'MOD-97 ✓':v.error}</span>
+      </div>
+      <div class="panel">
+        <div class="panel-label">IBAN</div>
+        <div class="iban-display">
+          ${groups.map((g,i)=>`<span class="${i===0?'iban-cc':i===1?'iban-check':''}">${g}</span>`).join(' ')}
+        </div>
+        <div class="iban-legend">
+          <span><span style="color:rgba(255,255,255,0.45)">■</span> Country code</span>
+          <span><span style="color:rgba(255,255,255,0.65)">■</span> Check digits</span>
+          <span><span style="color:#fff">■</span> BBAN</span>
+        </div>
+      </div>
+      <div id="bank-section">
+        ${v.valid?'<div class="loading-row"><div class="spinner"></div>Looking up bank details …</div>':''}
+      </div>
+      ${country?`
+      <div class="grid2">
+        <div class="panel">
+          <div class="panel-label">Country</div>
+          <div class="panel-value">${country.flag} ${country.name}</div>
+          <div class="panel-muted">${cc} · ${country.cur}${country.sepa?' · SEPA':''}</div>
+        </div>
+        <div class="panel">
+          <div class="panel-label">Check digits</div>
+          <div class="panel-value" style="font-size:36px">${checkDigits}</div>
+          <div class="panel-muted">Position 3–4</div>
+        </div>
+      </div>`:''}
+      ${Object.keys(parts).length?`
+      <div class="panel">
+        <div class="panel-label">BBAN Structure</div>
+        <div class="bban-row">
+          ${Object.entries(parts).map(([k,val])=>`
+            <div class="bban-block">
+              <div class="bban-digits">${val}</div>
+              <div class="bban-name">${BBAN_LABELS[k]||k}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`:''}
+      <div class="panel">
+        <div class="panel-label">Technical Details</div>
+        <div class="detail-row"><span class="detail-key">SEPA eligible</span><span class="detail-val">${country?.sepa?'Yes':'No'}</span></div>
+        <div class="detail-row"><span class="detail-key">IBAN length</span><span class="detail-val">${raw.length} / ${country?.len||'?'} chars</span></div>
+        <div class="detail-row"><span class="detail-key">MOD-97</span><span class="detail-val">${v.valid?'Remainder = 1 ✓':v.error}</span></div>
+        <div class="detail-row"><span class="detail-key">Raw BBAN</span><span class="detail-val" style="font-size:13px">${bban||'—'}</span></div>
+      </div>
+    </div>`;
+
+    if(v.valid) {
+      try {
+        const res=await fetch(PROXY,{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+            'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjY256c25pa3NyZGRldXJodnFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NzEwODQsImV4cCI6MjA5MDU0NzA4NH0.ZdxS6Up_WGcGC1XNAaCYNZLZSreOOCBnbjtvQOuKpzc'
+          },
+          body:JSON.stringify({iban:raw})
+        });
+        const json=await res.json();
+        const bankEl=document.getElementById('bank-section');
+        if(json.result===200&&json.data?.bank) {
+          const b=json.data.bank;
+          bankEl.innerHTML=`
+            <div class="bank-panel">
+              <div class="panel-label">🏦 Bank</div>
+              <div class="panel-value">${b.bank_name}</div>
+              ${b.bic?`<div class="bic-value">BIC / SWIFT: <span>${b.bic}</span></div>`:''}
+              ${[b.address,b.zip,b.city].filter(Boolean).length?`<div class="panel-muted">${[b.address,b.zip,b.city].filter(Boolean).join(', ')}</div>`:''}
+              ${b.phone?`<div class="panel-muted">Phone: ${b.phone}</div>`:''}
+            </div>`;
+        } else {
+          bankEl.innerHTML=`<div class="panel"><div class="panel-label">Bank details</div><div class="panel-muted">${json.message||'No bank data found'}</div></div>`;
+        }
+      } catch(e) {
+        document.getElementById('bank-section').innerHTML=`<div class="panel"><div class="panel-label">Bank details</div><div class="panel-muted">Network error while fetching bank data</div></div>`;
+      }
+    }
+  }
+
+  document.getElementById('ibanInput').addEventListener('keydown', e=>{ if(e.key==='Enter') analyze(); });
+
+  (function(){
+    const url=encodeURIComponent(window.location.href);
+    const title=encodeURIComponent('SwissTools IBAN Checker — free & private');
+    document.getElementById('sh-wa').href='https://wa.me/?text='+title+'%20'+url;
+    document.getElementById('sh-x').href='https://twitter.com/intent/tweet?url='+url+'&text='+title;
+    document.getElementById('sh-li').href='https://www.linkedin.com/sharing/share-offsite/?url='+url;
+    document.getElementById('sh-em').href='mailto:?subject='+title+'&body='+url;
+  })();
+  </script>
+</body>
+</html>
